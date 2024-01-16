@@ -5,27 +5,32 @@
 
 #root {
 
-    background-color: lightgrey; 
+    background-color: lightgrey;
     margin: 0 auto;
     margin-top: 100px;
     width: 700px;
-    padding: 10px; 
+    padding: 10px;
     border: 2px solid black;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 
+header {
 
-.header-top, .header-bottom {
+    margin-bottom: 20px;
+}
+
+.header-top,
+.header-bottom {
 
     display: flex;
-    gap: 30px;
-    justify-content: center;
+    gap: 10px;
+    justify-content: space-between;
 
 }
 
 .header-top {
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
 
 
@@ -34,22 +39,31 @@
     background-color: lightgreen;
     border-radius: 10px;
     border: 2px solid black;
-    width: 80px;
-    height: 44px; 
+    width: 126px;
+    height: 44px;
     font-size: 12px;
     cursor: pointer;
 }
 
 .input {
-    border-radius: 10px; 
+    border-radius: 10px;
+    width: 200px;
 }
 
 .input::placeholder {
     text-align: center;
 }
 
-.counter { 
-    display: flex; 
+.counter {
+    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.task-container {
+
+    width: 500px;
+    height: 200px;
+    margin: 0 auto;
+    outline: auto; 
 }

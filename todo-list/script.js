@@ -1,7 +1,11 @@
 const root = document.getElementById('root');
 
 const header = document.createElement('header');
-root.append(header);
+
+const taskContainer = document.createElement('div')
+taskContainer.className = 'task-container';
+
+root.append(header, taskContainer);
 
 const headerTop = document.createElement('div'); 
 headerTop.className = 'header-top';
@@ -61,10 +65,6 @@ headerBottom.append(counterAll, counterCompleted, showAllButton, showCompletedBu
 
 
 
-
-
-const taskContainer = document.createElement('div')
-taskContainer.className = 'task-container';
 
 
 
