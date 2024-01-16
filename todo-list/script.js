@@ -63,6 +63,27 @@ headerBottom.append(counterAll, counterCompleted, showAllButton, showCompletedBu
 
 
 
+// card
+const taskCard = document.createElement('div'); 
+taskCard.className = 'task-card';
+
+const cardTickButton = createButton('tick', 'button', 'card-button-tick');
+const cardDeleteButton = createButton('cross', 'button', 'card-button-delete');
+const cardInput = createInput('Todo text', 'input', 'card-input');
+
+const cardDate = document.createElement('time')
+cardDate.className = 'card-date';
+cardDate.innerText = 'Date';
+
+taskCard.append(cardTickButton, cardDeleteButton, cardInput, cardDate)
+
+taskContainer.append(taskCard, taskCard)
+
+
+
+
+
+
 
 
 
