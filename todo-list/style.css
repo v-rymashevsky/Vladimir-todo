@@ -1,0 +1,124 @@
+.task-container {
+
+    border: 1px auto black;
+}
+
+#root {
+
+    background-color: lightgrey;
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 630px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+
+header {
+
+    margin-bottom: 20px;
+}
+
+.header-top,
+.header-bottom {
+
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+
+}
+
+.header-top {
+    margin-bottom: 20px;
+}
+
+
+.button {
+
+    background-color: lightgreen;
+    border-radius: 10px;
+    border: 2px solid black;
+    width: 126px;
+    height: 44px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.input {
+    border-radius: 10px;
+    width: 200px;
+}
+
+.input::placeholder {
+    text-align: center;
+}
+
+.counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task-container {
+
+    width: 500px;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+.task-card {
+    display: grid; 
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(3, 30px); 
+    border: 2px solid black; 
+    border-radius: 10px; 
+    padding: 5px; 
+}
+
+.card-button-tick { 
+
+    background-color: lightgreen;
+    border-radius: 10px;
+    border: 2px solid black;
+    grid-column: 1;
+    grid-row: 2;
+
+
+}
+
+.card-button-delete { 
+
+    background-color: lightgreen;
+    border-radius: 10px;
+    border: 2px solid black;
+    grid-column: 8;
+
+
+
+}
+
+.card-input { 
+
+    border-radius: 10px;
+    grid-column: 3 / span 4; 
+    grid-row: 2;
+
+}
+
+.card-input::placeholder {
+    text-align: center;
+}
+
+.card-date {
+    grid-column: 7 / span 2;
+    grid-row: 3; 
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px; 
+
+
+}
+
