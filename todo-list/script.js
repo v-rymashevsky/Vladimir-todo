@@ -247,16 +247,26 @@ deleteAllHandler()
 
 // SEARCHING
 
+// renderSearchResults () { 
+
+
 searchInput.addEventListener('input', function (event) {
     const todos = getData("todos")
     const searchItems = todos.filter(({ task }) => task.startsWith(event.target.value));
+    taskContainer.innerHTML = '';
     if (searchItems.length > 0) {
-        renderTasks()
+        searchItems.forEach(({ id, date, task, isChecked }) => {
+            const taskCard = createTaskCard(id, date, task, isChecked)
+            taskContainer.append(taskCard);
+        })
+        refreshCounter();
     }
     else {
         renderNoTasksBlock()
     }
 })
+
+
 
 
 // MARKING COMPLETED
