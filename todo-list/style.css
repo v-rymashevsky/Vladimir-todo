@@ -1,11 +1,8 @@
-.task-container {
 
-    border: 1px auto black;
-}
 
 #root {
 
-    background-color: lightgrey;
+    background-color: whitesmoke;
     margin: 0 auto;
     margin-top: 100px;
     width: 630px;
@@ -34,6 +31,13 @@ header {
 }
 
 
+
+
+.button, .card-button-delete {
+    transition: transform 0.1s ease;
+    cursor: pointer;
+}
+
 .button {
 
     background-color: lightgreen;
@@ -42,12 +46,18 @@ header {
     width: 126px;
     height: 44px;
     font-size: 12px;
-    cursor: pointer;
+}
+
+.card-button-delete:hover, .button:hover {
+    transform: scale(1.1)
+
+
 }
 
 .input {
     border-radius: 10px;
     width: 200px;
+    border: 2px solid black; 
 }
 
 .input::placeholder {
@@ -58,6 +68,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 15px;
 }
 
 .task-container {
@@ -74,15 +85,17 @@ header {
     border: 2px solid black; 
     border-radius: 10px; 
     padding: 5px; 
+    margin-bottom: 20px; 
 }
 
-.card-button-tick { 
+.card-checkbox { 
 
     background-color: lightgreen;
     border-radius: 10px;
     border: 2px solid black;
     grid-column: 1;
     grid-row: 2;
+    cursor: pointer;
 
 
 }
@@ -93,16 +106,17 @@ header {
     border-radius: 10px;
     border: 2px solid black;
     grid-column: 8;
-
-
-
+    cursor: pointer; 
 }
 
-.card-input { 
+.card-text { 
 
     border-radius: 10px;
-    grid-column: 3 / span 4; 
+    grid-column: 2 / span 5; 
     grid-row: 2;
+    align-self: center; 
+    padding: 5px; 
+    
 
 }
 
@@ -113,12 +127,19 @@ header {
 .card-date {
     grid-column: 7 / span 2;
     grid-row: 3; 
-    background-color: white;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    font-size: 15px;
     border-radius: 10px; 
 
 
 }
+
+
+.no-tasks-placeholder {
+    text-align: center;
+    height: 20px;
+}
+
 

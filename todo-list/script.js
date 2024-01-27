@@ -5,16 +5,21 @@ const header = document.createElement('header');
 const taskContainer = document.createElement('div')
 taskContainer.className = 'task-container';
 
-root.append(header, taskContainer);
 
-const headerTop = document.createElement('div'); 
+const headerTop = document.createElement('div');
 headerTop.className = 'header-top';
 
-const headerBottom = document.createElement('div'); 
+const headerBottom = document.createElement('div');
 headerBottom.className = 'header-bottom';
 
 
-//button
+
+
+
+// component functions
+
+
+// button
 function createButton(text, type, className) {
     const button = document.createElement('button');
     button.innerText = text;
@@ -23,8 +28,7 @@ function createButton(text, type, className) {
     return button
 }
 
-//input
-
+// input
 function createInput(text, type, className) {
     const input = document.createElement('input');
     input.placeholder = text;
@@ -33,53 +37,229 @@ function createInput(text, type, className) {
     return input
 }
 
-function createCounter ( text, type, className) { 
-
+// create counter
+function createCounter(text, type, className) {
     const counter = document.createElement('div');
-    counter.innerText = text; 
-    counter.className = className; 
-    counter.type = type; 
-    return counter
+    counter.textContent = text;
+    counter.className = className;
+    counter.type = type;
+    return counter;
 }
 
+//refresh counter
+refreshCounter = () => {
+    const todos = getData("todos")
+    counterAll.textContent = `All: ${todos.length}`
+}
+
+
+// date 
+
+function displayDate() {
+
+    const currentDate = document.createElement('span');
+    currentDate.className = 'card-date'
+    let date = Date().toString().split(" ");
+    currentDate.innerText = date[1] + ' ' + date[2] + ' ' + date[3] + ' ' + date[4].slice(0, 5);
+    return currentDate
+}
+
+// card
+const createTaskCard = (id, date, task, isCompleted) => {
+
+    const taskCard = document.createElement('div');
+    taskCard.className = 'task-card';
+    const cardTickButton = createButton('tick', 'button', 'card-button-tick');
+    const cardDeleteButton = createButton('X', 'button', 'card-button-delete');
+    const cardText = document.createElement('span');
+    cardText.classList.add('card-text');
+    taskCard.id = id;
+    cardText.innerText = task;
+    const checkbox = createInput('', 'checkbox', 'card-checkbox');
+    checkbox.checked = isCompleted;
+    const taskDate = document.createElement('span');
+    taskDate.className = 'card-date'
+    taskDate.innerText = date;
+    taskCard.append(checkbox, cardDeleteButton, cardText, taskDate)
+    return taskCard;
+}
+
+// 'no tasks' block
+
+renderNoTasksBlock = () => {
+    taskContainer.innerHTML = '';
+    const noTasksPlaceholder = document.createElement('div');
+    noTasksPlaceholder.className = 'no-tasks-placeholder';
+    noTasksPlaceholder.innerText = 'no tasks to display';
+    taskContainer.append(noTasksPlaceholder);
+}
+
+
+// components
+
 const deleteAllButton = createButton('Delete All', 'button', 'button');
-const deleteLastButton = createButton('Delete Last', 'button', 'button'); 
-const addButton = createButton('Add', 'button', 'button'); 
-const showAllButton = createButton('Show All', 'button', 'button'); 
-const showCompletedButton = createButton('Show Completed', 'button', 'button'); 
+const deleteLastButton = createButton('Delete Last', 'button', 'button');
+const addButton = createButton('Add', 'button', 'button');
+const showAllButton = createButton('Show All', 'button', 'button');
+const showCompletedButton = createButton('Show Completed', 'button', 'button');
 
-const toDoInput = createInput('Ented todo...', 'input', 'input');
-const searchInput = createInput('Search...', 'input', 'input'); 
+const toDoInput = createInput('Enter todo...', 'input', 'input');
+const searchInput = createInput('Search...', 'input', 'input');
 
-const counterAll = createCounter('All: 2','div','counter')
-const counterCompleted = createCounter('Completed: 1','div','counter')
+const counterAll = createCounter('All: 0', 'div', 'counter')
+const counterCompleted = createCounter('Completed: 0', 'div', 'counter')
 
 
+//.append()
 
+root.append(header, taskContainer);
 header.append(headerTop, headerBottom)
-
 headerTop.append(deleteAllButton, deleteLastButton, toDoInput, addButton);
 headerBottom.append(counterAll, counterCompleted, showAllButton, showCompletedButton, searchInput);
 
 
 
-// card
-const taskCard = document.createElement('div'); 
-taskCard.className = 'task-card';
+// LOCAL STORAGE
 
-const cardTickButton = createButton('tick', 'button', 'card-button-tick');
-const cardDeleteButton = createButton('cross', 'button', 'card-button-delete');
-const cardInput = createInput('Todo text', 'input', 'card-input');
-
-const cardDate = document.createElement('time')
-cardDate.className = 'card-date';
-cardDate.innerText = 'Date';
-
-taskCard.append(cardTickButton, cardDeleteButton, cardInput, cardDate)
-
-taskContainer.append(taskCard, taskCard)
+// getData
 
 
+function getData(key) {
+
+    const value = localStorage.getItem(key) || "[]";
+    return JSON.parse(value);
+}
+
+// setData
+
+function setData(arr) {
+
+    const dataJson = JSON.stringify(arr);
+    localStorage.setItem("todos", dataJson);
+
+}
+
+// ADDING TASKS
+
+
+// listener
+
+addButton.addEventListener("click", () => {
+    const userInput = toDoInput.value;
+
+    if (userInput === undefined || userInput.toString().length === 0) {
+        alert('Add task description');
+    } else {
+        addTask(userInput);
+        renderTasks();
+        toDoInput.value = "";
+
+    }
+})
+
+// createTask
+function createTask(value) {
+
+    return {
+        id: self.crypto.randomUUID(),
+        date: new Date().toLocaleDateString(),
+        task: value,
+        isChecked: false
+    }
+}
+
+// addTask
+function addTask(value) {
+    const todos = getData("todos");
+    todos.push(createTask(value))
+    setData(todos);
+
+}
+
+
+// renderTasks
+
+const renderTasks = () => {
+    taskContainer.innerHTML = '';
+    const todos = getData("todos");
+    if (todos.length > 0) {
+        todos.forEach(({ id, date, task, isChecked }) => {
+            const taskCard = createTaskCard(id, date, task, isChecked)
+            taskContainer.append(taskCard);
+        })
+        refreshCounter();
+    } else {
+        renderNoTasksBlock();
+    }
+}
+
+renderTasks();
+
+
+// DELETE A TASK
+
+// listener 
+taskContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('card-button-delete')) {
+        const taskId = event.target.closest('div').id;
+        if (window.confirm('are you sure?')) {
+            const todos = getData("todos");
+            deleteTask(taskId); 
+            renderTasks()
+            refreshCounter(); 
+        }
+
+    }
+})
+
+function deleteTask(id) {
+    const todos = getData("todos")
+    const updatedTasks = todos.filter((element) => element.id !== id);
+    setData(updatedTasks); 
+    console.log(getData("todos"))
+
+}
+
+
+
+
+
+// DELETE ALL TASKS
+function deleteAllHandler() {
+    deleteAllButton.addEventListener('click', () => {
+        const todos = getData("todos")
+        if (todos.length === 0) {
+            alert('Nothing to delete');
+        } else {
+            if (window.confirm("Are you sure?")) {
+                todos.length = 0;
+                setData(todos)
+                renderTasks();
+                refreshCounter();
+            }
+        }
+    });
+}
+
+deleteAllHandler()
+
+
+
+// SEARCHING
+
+searchInput.addEventListener('input', function (event) {
+    const todos = getData("todos")
+    const searchItems = todos.filter(({ task }) => task.startsWith(event.target.value));
+    if (searchItems.length > 0) {
+        renderTasks()
+    }
+    else {
+        renderNoTasksBlock()
+    }
+})
+
+
+// MARKING COMPLETED
 
 
 
@@ -87,5 +267,4 @@ taskContainer.append(taskCard, taskCard)
 
 
 
-
-
+//SHOWING COMPLETED
