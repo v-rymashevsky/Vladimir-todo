@@ -65,7 +65,7 @@ function displayDate() {
 }
 
 // card
-const createTaskCard = (id, date, task, isCompleted) => {
+const createTaskCard = (id, date, task, isChecked) => {
 
     const taskCard = document.createElement('div');
     taskCard.className = 'task-card';
@@ -76,7 +76,7 @@ const createTaskCard = (id, date, task, isCompleted) => {
     taskCard.id = id;
     cardText.innerText = task;
     const checkbox = createInput('', 'checkbox', 'card-checkbox');
-    checkbox.checked = isCompleted;
+    checkbox.checked = isChecked;
     const taskDate = document.createElement('span');
     taskDate.className = 'card-date'
     taskDate.innerText = date;
@@ -203,10 +203,9 @@ taskContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('card-button-delete')) {
         const taskId = event.target.closest('div').id;
         if (window.confirm('are you sure?')) {
-            const todos = getData("todos");
-            deleteTask(taskId); 
+            deleteTask(taskId);
             renderTasks()
-            refreshCounter(); 
+            refreshCounter();
         }
 
     }
@@ -215,16 +214,31 @@ taskContainer.addEventListener('click', (event) => {
 function deleteTask(id) {
     const todos = getData("todos")
     const updatedTasks = todos.filter((element) => element.id !== id);
-    setData(updatedTasks); 
-    console.log(getData("todos"))
+    setData(updatedTasks);
 
 }
+
+// DELETE LAST
+
+// deleteLastButton.addEventListener('click', () => {
+//     deleteTask(findLastItemId());
+// })
+
+// function findLastItemId() {
+
+//     const todos = getData("todos")
+//     const lastItem = todos.find(Math.max())
+//     console.log(lastItem.id)
+
+// 
+// }
 
 
 
 
 
 // DELETE ALL TASKS
+
 function deleteAllHandler() {
     deleteAllButton.addEventListener('click', () => {
         const todos = getData("todos")
@@ -249,7 +263,6 @@ deleteAllHandler()
 
 // renderSearchResults () { 
 
-
 searchInput.addEventListener('input', function (event) {
     const todos = getData("todos")
     const searchItems = todos.filter(({ task }) => task.startsWith(event.target.value));
@@ -264,17 +277,57 @@ searchInput.addEventListener('input', function (event) {
     else {
         renderNoTasksBlock()
     }
+    // resetSearchInput()
 })
 
+// resetSearchInput = () => {
+//     root.addEventListener('click', (event) => {
+
+//         renderTasks()
+//         searchInput.value = '';
+// });
+    
+// }
 
 
+// (UN)CHECKING
 
-// MARKING COMPLETED
-
-
-
-
-
-
+taskContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('card-checkbox')) {
+        const todos = getData('todos'); 
+        const taskId = event.target.closest('div').id;
+        const item = todos.find(({id}) => id === taskId);
+        item.isChecked = !item.isChecked;
+        setData(todos)
+    }
+})
 
 //SHOWING COMPLETED
+
+// forEach...
+// completedTasks.push() ...
+// showAllButton.addEventListener ... {
+//     renderCompleted()
+// }
+
+// function renderCompleted () { }
+
+
+
+
+
+//re
+
+        // if (window.confirm('are you sure?')) {
+        //     const todos = getData("todos");
+        //     deleteTask(taskId);
+        //     renderTasks()
+        //     refreshCounter();
+        // }
+
+
+
+
+
+
+// find item.index === todos.length
