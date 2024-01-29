@@ -239,20 +239,24 @@ function deleteTask(id) {
 // listener
 
 deleteLastButton.addEventListener('click', () => {
-    deleteLastItem()
-})
+    const todos = getData("todos"); 
+    if (todos.length === 0) { 
+        alert('Nothing to delete');
+    } else if (window.confirm('Are you sure?')) {
+        deleteLastItem();
+    }
+});
+
+
 
 // function
 
 function deleteLastItem() {
     const todos = getData("todos"); 
-    if (todos.length > 0) { 
     const index = todos.length - 1;
     const lastItemId = todos[index].id; 
     deleteTask(lastItemId);
-    } else { 
-        alert('nothing to delete')
-    }
+    
 }
 
 // DELETE ALL TASKS
