@@ -47,9 +47,12 @@ function createCounter(text, type, className) {
 }
 
 //refresh counter
-refreshCounter = () => {
-    const todos = getData("todos")
-    counterAll.textContent = `All: ${todos.length}`
+refreshCounter = (type, arr) => {
+    if (type === counterAll) {
+    type.textContent = `All: ${arr.length}`
+    } else {
+        type.textContent = `Completed: ${arr.length}`
+    }
 }
 
 
@@ -151,7 +154,6 @@ addButton.addEventListener("click", () => {
         alert('Add task description');
     } else {
         addTask(userInput);
-        renderTasks();
         toDoInput.value = "";
 
     }
@@ -172,28 +174,41 @@ function createTask(value) {
 function addTask(value) {
     const todos = getData("todos");
     todos.push(createTask(value))
-    setData(todos);
+    setData(todos)
+    renderTasks(todos);
+    refreshCounter(counterAll, todos)
+}
+
+function testInit () {
+    const todos = getData('todos');
+    renderTasks(todos);
+    refreshCounter(counterAll, todos)
+    const completedItems = todos.filter(({ isChecked }) => isChecked === true);
+    refreshCounter(counterCompleted, completedItems)
 
 }
 
 
 // renderTasks
 
-const renderTasks = () => {
+const renderTasks = (arr) => {
     taskContainer.innerHTML = '';
-    const todos = getData("todos");
-    if (todos.length > 0) {
-        todos.forEach(({ id, date, task, isChecked }) => {
+    if (arr.length > 0) {
+        arr.forEach(({ id, date, task, isChecked }) => {
             const taskCard = createTaskCard(id, date, task, isChecked)
             taskContainer.append(taskCard);
+
         })
-        refreshCounter();
     } else {
         renderNoTasksBlock();
     }
 }
 
-renderTasks();
+
+
+
+
+testInit()
 
 
 // DELETE A TASK
@@ -204,8 +219,6 @@ taskContainer.addEventListener('click', (event) => {
         const taskId = event.target.closest('div').id;
         if (window.confirm('are you sure?')) {
             deleteTask(taskId);
-            renderTasks()
-            refreshCounter();
         }
 
     }
@@ -214,28 +227,37 @@ taskContainer.addEventListener('click', (event) => {
 function deleteTask(id) {
     const todos = getData("todos")
     const updatedTasks = todos.filter((element) => element.id !== id);
+    const completedItems = updatedTasks.filter(({ isChecked }) => isChecked === true);
     setData(updatedTasks);
-
+    renderTasks(updatedTasks);
+    refreshCounter(counterAll, updatedTasks);
+    refreshCounter(counterCompleted, completedItems)
 }
 
 // DELETE LAST
 
-// deleteLastButton.addEventListener('click', () => {
-//     deleteTask(findLastItemId());
-// })
+// listener
 
-// function findLastItemId() {
-
-//     const todos = getData("todos")
-//     const lastItem = todos.find(Math.max())
-//     console.log(lastItem.id)
-
-// 
-// }
+deleteLastButton.addEventListener('click', () => {
+    const todos = getData("todos"); 
+    if (todos.length === 0) { 
+        alert('Nothing to delete');
+    } else if (window.confirm('Are you sure?')) {
+        deleteLastItem();
+    }
+});
 
 
 
+// function
 
+function deleteLastItem() {
+    const todos = getData("todos"); 
+    const index = todos.length - 1;
+    const lastItemId = todos[index].id; 
+    deleteTask(lastItemId);
+    
+}
 
 // DELETE ALL TASKS
 
@@ -248,8 +270,9 @@ function deleteAllHandler() {
             if (window.confirm("Are you sure?")) {
                 todos.length = 0;
                 setData(todos)
-                renderTasks();
-                refreshCounter();
+                renderTasks(todos);
+                refreshCounter(counterAll, todos);
+                refreshCounter(counterCompleted, todos);
             }
         }
     });
@@ -257,38 +280,18 @@ function deleteAllHandler() {
 
 deleteAllHandler()
 
-
-
 // SEARCHING
 
-// renderSearchResults () { 
-
 searchInput.addEventListener('input', function (event) {
-    const todos = getData("todos")
+    const todos = getData("todos");
     const searchItems = todos.filter(({ task }) => task.startsWith(event.target.value));
-    taskContainer.innerHTML = '';
-    if (searchItems.length > 0) {
-        searchItems.forEach(({ id, date, task, isChecked }) => {
-            const taskCard = createTaskCard(id, date, task, isChecked)
-            taskContainer.append(taskCard);
-        })
-        refreshCounter();
-    }
-    else {
-        renderNoTasksBlock()
-    }
-    // resetSearchInput()
-})
-
-// resetSearchInput = () => {
-//     root.addEventListener('click', (event) => {
-
-//         renderTasks()
-//         searchInput.value = '';
-// });
     
-// }
-
+    if (searchItems.length > 0) {
+        renderTasks(searchItems);
+    } else {
+        renderNoTasksBlock();
+    }
+});
 
 // (UN)CHECKING
 
@@ -299,35 +302,28 @@ taskContainer.addEventListener('click', (event) => {
         const item = todos.find(({id}) => id === taskId);
         item.isChecked = !item.isChecked;
         setData(todos)
+        const completedItems = todos.filter(({ isChecked }) => isChecked === true);
+        refreshCounter(counterCompleted, completedItems);
+
     }
 })
 
-//SHOWING COMPLETED
+//SHOWING ALL
 
-// forEach...
-// completedTasks.push() ...
-// showAllButton.addEventListener ... {
-//     renderCompleted()
-// }
+showAllButton.addEventListener('click', () => { 
+    const todos = getData("todos");
+    renderTasks(todos)
+}) 
 
-// function renderCompleted () { }
+// SHOWING COMPLETED
+showCompletedButton.addEventListener('click', () => { 
+    const todos = getData("todos");
+    const completedItems = todos.filter(({ isChecked }) => isChecked === true);
+    if (completedItems.length > 0) {
+        renderTasks(completedItems);
+    } else {
+        renderNoTasksBlock();
+    }
+}); 
 
-
-
-
-
-//re
-
-        // if (window.confirm('are you sure?')) {
-        //     const todos = getData("todos");
-        //     deleteTask(taskId);
-        //     renderTasks()
-        //     refreshCounter();
-        // }
-
-
-
-
-
-
-// find item.index === todos.length
+// COUNTER UPDATES at searchItems, showCompleted -- fixed?? 
