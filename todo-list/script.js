@@ -326,5 +326,4 @@ showCompletedButton.addEventListener('click', () => {
     }
 }); 
 
-
 // COUNTER UPDATES at searchItems, showCompleted -- fixed?? 
