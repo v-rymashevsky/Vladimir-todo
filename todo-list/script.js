@@ -179,7 +179,7 @@ function addTask(value) {
     refreshCounter(counterAll, todos)
 }
 
-function testInit () {
+function initApp () {
     const todos = getData('todos');
     renderTasks(todos);
     refreshCounter(counterAll, todos)
@@ -208,7 +208,7 @@ const renderTasks = (arr) => {
 
 
 
-testInit()
+initApp()
 
 
 // DELETE A TASK
@@ -261,7 +261,6 @@ function deleteLastItem() {
 
 // DELETE ALL TASKS
 
-function deleteAllHandler() {
     deleteAllButton.addEventListener('click', () => {
         const todos = getData("todos")
         if (todos.length === 0) {
@@ -276,9 +275,8 @@ function deleteAllHandler() {
             }
         }
     });
-}
 
-deleteAllHandler()
+
 
 // SEARCHING
 
@@ -325,5 +323,3 @@ showCompletedButton.addEventListener('click', () => {
         renderNoTasksBlock();
     }
 }); 
-
-// COUNTER UPDATES at searchItems, showCompleted -- fixed?? 
