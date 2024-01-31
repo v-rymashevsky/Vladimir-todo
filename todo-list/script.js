@@ -56,17 +56,6 @@ refreshCounter = (type, arr) => {
 }
 
 
-// date 
-
-function displayDate() {
-
-    const currentDate = document.createElement('span');
-    currentDate.className = 'card-date'
-    let date = Date().toString().split(" ");
-    currentDate.innerText = date[1] + ' ' + date[2] + ' ' + date[3] + ' ' + date[4].slice(0, 5);
-    return currentDate
-}
-
 // card
 const createTaskCard = (id, date, task, isChecked) => {
 
@@ -147,7 +136,10 @@ function setData(arr) {
 
 // listener
 
-addButton.addEventListener("click", () => {
+addButton.addEventListener("click", handleBtnAddTask)
+
+
+function handleBtnAddTask() { 
     const userInput = toDoInput.value;
 
     if (userInput === undefined || userInput.toString().length === 0) {
@@ -155,9 +147,8 @@ addButton.addEventListener("click", () => {
     } else {
         addTask(userInput);
         toDoInput.value = "";
-
     }
-})
+}
 
 // createTask
 function createTask(value) {
@@ -214,7 +205,9 @@ initApp()
 // DELETE A TASK
 
 // listener 
-taskContainer.addEventListener('click', (event) => {
+taskContainer.addEventListener('click', handleBtnDeleteTask)
+
+function handleBtnDeleteTask(event) { 
     if (event.target.classList.contains('card-button-delete')) {
         const taskId = event.target.closest('div').id;
         if (window.confirm('are you sure?')) {
@@ -222,7 +215,7 @@ taskContainer.addEventListener('click', (event) => {
         }
 
     }
-})
+}
 
 function deleteTask(id) {
     const todos = getData("todos")
@@ -238,15 +231,18 @@ function deleteTask(id) {
 
 // listener
 
-deleteLastButton.addEventListener('click', () => {
+deleteLastButton.addEventListener('click', handleBtnDeleteLast)
+
+
+
+function handleBtnDeleteLast() { 
     const todos = getData("todos"); 
     if (todos.length === 0) { 
         alert('Nothing to delete');
     } else if (window.confirm('Are you sure?')) {
         deleteLastItem();
     }
-});
-
+}
 
 
 // function
@@ -261,7 +257,10 @@ function deleteLastItem() {
 
 // DELETE ALL TASKS
 
-    deleteAllButton.addEventListener('click', () => {
+    deleteAllButton.addEventListener('click', handleBtnDeleteAll) 
+
+    function handleBtnDeleteAll() { 
+
         const todos = getData("todos")
         if (todos.length === 0) {
             alert('Nothing to delete');
@@ -274,13 +273,15 @@ function deleteLastItem() {
                 refreshCounter(counterCompleted, todos);
             }
         }
-    });
+    }
 
 
 
 // SEARCHING
 
-searchInput.addEventListener('input', function (event) {
+searchInput.addEventListener('input', handleSearchInput);
+
+function handleSearchInput(event) {
     const todos = getData("todos");
     const searchItems = todos.filter(({ task }) => task.startsWith(event.target.value));
     
@@ -289,11 +290,14 @@ searchInput.addEventListener('input', function (event) {
     } else {
         renderNoTasksBlock();
     }
-});
+}
+
 
 // (UN)CHECKING
 
-taskContainer.addEventListener('click', (event) => {
+taskContainer.addEventListener('click', handleCheckboxes)
+
+function handleCheckboxes(event) {
     if (event.target.classList.contains('card-checkbox')) {
         const todos = getData('todos'); 
         const taskId = event.target.closest('div').id;
@@ -304,17 +308,25 @@ taskContainer.addEventListener('click', (event) => {
         refreshCounter(counterCompleted, completedItems);
 
     }
-})
+}
+
 
 //SHOWING ALL
 
-showAllButton.addEventListener('click', () => { 
+showAllButton.addEventListener('click', handleBtnShowAll) 
+
+function handleBtnShowAll () {
     const todos = getData("todos");
-    renderTasks(todos)
-}) 
+    renderTasks(todos);
+}
+
+
+
 
 // SHOWING COMPLETED
-showCompletedButton.addEventListener('click', () => { 
+showCompletedButton.addEventListener('click', handleBtnShowCompleted) 
+
+function handleBtnShowCompleted () { 
     const todos = getData("todos");
     const completedItems = todos.filter(({ isChecked }) => isChecked === true);
     if (completedItems.length > 0) {
@@ -322,4 +334,4 @@ showCompletedButton.addEventListener('click', () => {
     } else {
         renderNoTasksBlock();
     }
-}); 
+}
