@@ -1,8 +1,8 @@
-import { toDoInput } from "./components";
-import { addTask, deleteTask, deleteLastItem } from "./taskOperations";
-import { getData, setData } from "./utils";
-import { renderTasks, refreshCounter, renderNoTasksBlock } from "./render";
-import { counterAll, counterCompleted } from "./components";
+import { toDoInput, counterAll, counterCompleted } from "./components.js";
+import { addTask, deleteTask, deleteLastItem } from "./taskOperations.js";
+import { getData, setData } from "./utils.js";
+import { renderTasks, refreshCounter, renderNoTasksBlock } from "./render.js";
+
 
 
 

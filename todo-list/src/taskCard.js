@@ -1,4 +1,4 @@
-import { createButton, createInput } from "./components";
+import { createButton, createInput } from "./components.js";
 
 
 

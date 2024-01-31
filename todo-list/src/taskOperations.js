@@ -1,6 +1,6 @@
-import { setData, getData } from "./utils";
-import { renderTasks, refreshCounter } from "./render";
-import { counterAll, counterCompleted } from "./components";
+import { setData, getData } from "./utils.js";
+import { renderTasks, refreshCounter } from "./render.js";
+import { counterAll, counterCompleted } from "./components.js";
 
 
 export function createTask(value) {

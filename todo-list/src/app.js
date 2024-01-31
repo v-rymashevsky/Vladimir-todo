@@ -1,6 +1,6 @@
-import { getData } from "./utils";
-import { counterAll, counterCompleted } from "./components";
-import { renderTasks, refreshCounter } from "./render";
+import { getData } from "./utils.js";
+import { counterAll, counterCompleted } from "./components.js";
+import { renderTasks, refreshCounter } from "./render.js";
 
 
 

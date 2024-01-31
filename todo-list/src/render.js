@@ -1,5 +1,6 @@
 import { taskContainer } from './main.js'
 import { createTaskCard } from './taskCard.js'
+import { counterAll } from './components.js'
 
 
 
